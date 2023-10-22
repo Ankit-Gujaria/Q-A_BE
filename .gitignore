@@ -1,0 +1,8 @@
+# Node artifact directory
+dist/
+node_modules/
+uploads
+
+# Node artifact files
+.env
+.editorconfig
