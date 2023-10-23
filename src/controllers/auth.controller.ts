@@ -53,6 +53,7 @@ const login = async (req: Request, res: Response) => {
     // check user exist
     const user = await UserModel.findOne({
       email,
+      isDeleted: false,
     });
     if (!user)
       return res.status(404).json({
@@ -112,36 +113,4 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-// Login user data
-const me = async (req: Request, res: Response) => {
-  try {
-    const {
-      userData: { userId },
-    } = req;
-
-    // find login user
-    const user = await UserModel.findOne({
-      _id: userId,
-    }).select({ _id: 1, name: 1, status: 1, email: 1, phone: 1, role: 1 });
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: authConstant.USER_NOT_FOUND,
-        data: null,
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      message: authConstant.LOGIN_SUCCESS,
-      data: user,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error,
-      data: null,
-    });
-  }
-};
-
-export default { registration, login, me };
+export default { registration, login };

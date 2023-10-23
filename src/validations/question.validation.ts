@@ -7,6 +7,13 @@ const addQuestionValidationSchema = {
   },
 };
 
+// add question validation schema
+const editQuestionValidationSchema = {
+  body: {
+    description: Joi.string().trim().optional(),
+  },
+};
 export default {
   addQuestionValidationSchema,
+  editQuestionValidationSchema
 };

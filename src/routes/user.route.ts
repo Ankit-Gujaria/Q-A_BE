@@ -14,4 +14,14 @@ router.put(
   userController.updateUserStatus
 );
 
+router.put(
+  "/users/:id",
+  auth,
+  adminRole,
+  celebrate(userValidation.editUserSchema),
+  userController.editUser
+);
+
+router.delete("/users/:id", auth, adminRole, userController.deleteUser);
+
 export default router;

@@ -13,9 +13,17 @@ enum FILE {
   FILE_JPG = "image/jpg",
   FILE_JPEG = "image/jpeg",
 }
+enum QUESTION_STATUS {
+  PENDING = 0,
+  ANSWERED = 1,
+  REJECTED = 2,
+  EXPIRED = 3,
+}
+
 const schemaConstant = Object.freeze({
   userRole: USER_ROLE,
   file: FILE,
+  questionStatus: QUESTION_STATUS,
 });
 
 export default schemaConstant;

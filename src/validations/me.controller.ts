@@ -1,17 +1,8 @@
 import { Joi } from "celebrate";
 import { authConstant } from "../constants/message.constant";
 
-// user status update validation schema
-const userUpdateStatus = {
-  body: {
-    status: Joi.number().required(),
-  },
-  params: {
-    id: Joi.string().required(),
-  },
-};
-
-const editUserSchema = {
+// Edit login user schema
+const editLoginUserSchema = {
   body: {
     name: Joi.string()
       .trim()
@@ -29,7 +20,7 @@ const editUserSchema = {
       .messages({
         "string.pattern.base": authConstant.MOBILE_VALIDATION,
       }),
-    status: Joi.number().optional(),
   },
 };
-export default { userUpdateStatus, editUserSchema };
+
+export default { editLoginUserSchema };
