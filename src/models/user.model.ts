@@ -26,8 +26,8 @@ const userSchema = new Schema(
     status: {
       type: Number,
       required: true,
-      default: 1,
-      enum: [0, 1],
+      default: "Inactive",
+      enum: ["Active", "Inactive"],
     },
     isDeleted: {
       type: Boolean,

@@ -16,6 +16,7 @@ const corsOpts = {
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"],
 };
+app.use("/public", express.static("public"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(function (req: Request, res: Response, next: NextFunction) {
@@ -28,7 +29,6 @@ app.use(errorHandler);
 app.use((req: Request, res: Response) => {
   return res.status(404).json({ message: "Route not found." });
 });
-app.use("/public", express.static("public"));
 app.use((req: Request, res: Response) => {
   return res.status(404).json({ message: "Route not found." });
 });

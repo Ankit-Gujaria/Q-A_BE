@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../models/user.model";
 import { hashPassword, signToken } from "../helpers/auth.helper";
 import { authConstant } from "../constants/message.constant";
+import schemaConstant from "../constants/schema.constant";
 
 // User's Registration
 const registration = async (req: Request, res: Response) => {
@@ -23,10 +24,9 @@ const registration = async (req: Request, res: Response) => {
     await UserModel.create({
       name,
       email,
-      role: 1,
+      role: schemaConstant.userRole.CUSTOMER,
       password: hashedPassword,
       phone,
-      status: 0,
     });
 
     return res.status(200).json({
@@ -54,6 +54,7 @@ const login = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({
       email,
       isDeleted: false,
+      status: schemaConstant.userStatus.ACTIVE,
     });
     if (!user)
       return res.status(404).json({

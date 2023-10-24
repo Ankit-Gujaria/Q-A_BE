@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import moment from "moment";
+import { Types } from "mongoose";
 import {
   questionConstant,
   commonConstant,
@@ -73,12 +74,22 @@ const listQuestions = async (
     } = req;
 
     // find all question
-    const questions = await QuestionModel.find({
-      userId,
-      ...(status && { status: Number(status) }),
-      ...(role === schemaConstant.userRole.customer && { userId }),
-    });
-
+    const questions = await QuestionModel.aggregate([
+      {
+        $lookup: {
+          from: "answers", // Name of the answers collection
+          localField: "_id", // Field in the questions collection
+          foreignField: "questionId", // Field in the answers collection
+          as: "answers", // Alias for the joined array
+        },
+      },
+      {
+        $match: {
+          ...(status && { status: status }),
+          ...(role === schemaConstant.userRole.CUSTOMER && { userId }),
+        },
+      },
+    ]);
     return res.status(200).json({
       success: true,
       message: questionConstant.QUESTIONS_GET_SUCCESSFULLY,
@@ -104,18 +115,36 @@ const questionDetails = async (
     const {
       params: { id },
     } = req;
-    const question = await QuestionModel.findById(id);
-    if (!question) {
+    const questionId = new Types.ObjectId(id);
+    // find all question
+    const questions = await QuestionModel.aggregate([
+      {
+        $lookup: {
+          from: "answers", // Name of the answers collection
+          localField: "_id", // Field in the questions collection
+          foreignField: "questionId", // Field in the answers collection
+          as: "answers", // Alias for the joined array
+        },
+      },
+      {
+        $match: {
+          _id: questionId,
+        },
+      },
+    ]);
+
+    if (!questions[0]) {
       return res.status(404).json({
         success: false,
         message: questionConstant.QUESTION_NOT_FOUND,
         data: null,
       });
     }
-    return res.status(404).json({
-      success: false,
+
+    return res.status(200).json({
+      success: true,
       message: questionConstant.QUESTION_DETAILS,
-      data: question,
+      data: questions[0],
     });
   } catch (error) {
     console.log(error);

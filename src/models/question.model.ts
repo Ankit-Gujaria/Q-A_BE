@@ -21,10 +21,10 @@ const questionSchema = new Schema(
       required: false,
     },
     status: {
-      type: Number,
+      type: String,
       required: true,
-      default: 0,
-      enum: [0, 1, 2, 3],
+      default: "Pending",
+      enum: ["Pending", "Answered", "Expired", "Rejected"],
     },
   },
   {

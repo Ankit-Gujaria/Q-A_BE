@@ -10,7 +10,6 @@ const router = Router();
 router.post(
   "/questions",
   auth,
-  customerRole,
   multer().single("questionImage"),
   celebrate(questionValidation.addQuestionValidationSchema),
   questionController.addQuestion
@@ -23,7 +22,6 @@ router.get("/questions/:id", auth, questionController.questionDetails);
 router.put(
   "/questions/:id",
   auth,
-  customerRole,
   multer().single("questionImage"),
   celebrate(questionValidation.editQuestionValidationSchema),
   questionController.editQuestion

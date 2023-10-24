@@ -4,7 +4,7 @@ import { fileConstant, commonConstant } from "../constants/message.constant";
 
 // upload question
 export const questionUpload = (file: any, fileName: any, id: any) => {
-  const folderName = `public/uploads/question/${id}`;
+  const folderName = "public/uploads/questions";
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName, { recursive: true });
   }
@@ -33,7 +33,7 @@ export const questionUpload = (file: any, fileName: any, id: any) => {
 
 // upload answer
 export const answerUpload = (file: any, fileName: any, id: any) => {
-  const folderName = `public/uploads/answer/${id}`;
+  const folderName = `public/uploads/answers`;
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName, { recursive: true });
   }
@@ -62,36 +62,36 @@ export const answerUpload = (file: any, fileName: any, id: any) => {
 
 // delete Question
 export const deleteQuestionImage = (id: any, filePath: any) => {
-  const file = `public/uploads/question/${id}/${filePath}`
+  const file = `public/uploads/questions/${filePath}`;
   try {
     fs.stat(file, (err) => {
       if (err) {
-        return { status: false, msg: err }
+        return { status: false, msg: err };
       }
-    })
+    });
     fs.unlink(file, (err) => {
-      if (err) return { status: false, msg: err }
-    })
-    return { status: true }
+      if (err) return { status: false, msg: err };
+    });
+    return { status: true };
   } catch (err) {
-    return { status: false, msg: err }
+    return { status: false, msg: err };
   }
-}
+};
 
 // delete Answer
 export const deleteAnswerImage = (id: any, filePath: any) => {
-  const file = `public/uploads/answer/${id}/${filePath}`
+  const file = `public/uploads/answers/${filePath}`;
   try {
     fs.stat(file, (err) => {
       if (err) {
-        return { status: false, msg: err }
+        return { status: false, msg: err };
       }
-    })
+    });
     fs.unlink(file, (err) => {
-      if (err) return { status: false, msg: err }
-    })
-    return { status: true }
+      if (err) return { status: false, msg: err };
+    });
+    return { status: true };
   } catch (err) {
-    return { status: false, msg: err }
+    return { status: false, msg: err };
   }
-}
+};
