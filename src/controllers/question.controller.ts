@@ -43,7 +43,6 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
       ...(description && { description }),
       ...(questionPathUrl && { questionImage: questionPathUrl }),
       userId,
-      status: 0,
       expiryDate: expiredTime,
     });
     return res.status(200).json({

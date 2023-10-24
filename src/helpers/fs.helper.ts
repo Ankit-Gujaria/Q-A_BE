@@ -19,7 +19,10 @@ export const questionUpload = (file: any, fileName: any, id: any) => {
     !(
       fileType === schemaConstant.file.FILE_PNG ||
       fileType === schemaConstant.file.FILE_JPG ||
-      fileType === schemaConstant.file.FILE_JPEG
+      fileType === schemaConstant.file.FILE_JPEG ||
+      fileType === schemaConstant.file.FILE_PDF ||
+      fileType === schemaConstant.file.FILE_DOCX ||
+      fileType === schemaConstant.file.FILE_DOC
     )
   ) {
     return { status: false, msg: fileConstant.IMAGE_TYPE };

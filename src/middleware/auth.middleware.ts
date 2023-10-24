@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/user.model";
 import { decodeToken } from "../helpers/auth.helper";
 import { authConstant, commonConstant } from "../constants/message.constant";
+import schemaConstant from "../constants/schema.constant";
 
 // check authentication
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -62,7 +63,7 @@ export const customerRole = async (
   try {
     const { userData } = req;
     // check user role type
-    if (userData.role !== 1) {
+    if (userData.role !== schemaConstant.userRole.CUSTOMER) {
       return res.status(401).json({
         success: false,
         message: authConstant.ACCESS_DENIED,
@@ -88,7 +89,7 @@ export const adminRole = async (
   try {
     const { userData } = req;
     // check user role type
-    if (userData.role !== 0) {
+    if (userData.role !== schemaConstant.userRole.ADMIN) {
       return res.status(401).json({
         success: false,
         message: authConstant.ACCESS_DENIED,

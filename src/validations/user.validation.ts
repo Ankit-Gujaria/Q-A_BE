@@ -4,7 +4,7 @@ import { authConstant } from "../constants/message.constant";
 // user status update validation schema
 const userUpdateStatus = {
   body: {
-    status: Joi.number().required(),
+    status: Joi.string().required(),
   },
   params: {
     id: Joi.string().required(),
@@ -29,7 +29,7 @@ const editUserSchema = {
       .messages({
         "string.pattern.base": authConstant.MOBILE_VALIDATION,
       }),
-    status: Joi.number().optional(),
+    status: Joi.string().optional(),
   },
 };
 export default { userUpdateStatus, editUserSchema };

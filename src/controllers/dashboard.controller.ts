@@ -9,11 +9,11 @@ const dashboardCount = async (req: Request, res: Response) => {
   try {
     // user count
     const activeUserCount = await UserModel.count({
-      status: 1,
+      status: schemaConstant.userStatus.ACTIVE,
       isDeleted: false,
     });
     const inActiveUserCount = await UserModel.count({
-      status: 0,
+      status: schemaConstant.userStatus.INACTIVE,
       isDeleted: false,
     });
     const TotalCount = activeUserCount + inActiveUserCount;
