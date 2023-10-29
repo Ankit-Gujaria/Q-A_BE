@@ -57,3 +57,7 @@ export const userConstant = {
   USER_UPDATE: "User updated successfully",
   USER_DELETE: "User deleted successfully",
 };
+
+export const reportConstant = {
+  GET_REPORT: "Report get successfully",
+};
