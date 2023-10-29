@@ -5,12 +5,13 @@ import { authConstant } from "../constants/message.constant";
 import schemaConstant from "../constants/schema.constant";
 import { reportConstant } from "../constants/message.constant";
 import moment from "moment";
+
 // report question data
 const questionReport = async (req: Request, res: Response) => {
   try {
     const {
       userData: { userId },
-      query: { status, startDate, endDate },
+      query: { status, startDate, endDate, questionerId },
     } = req;
 
     const startDateOfQuestion = startDate ? moment(startDate as string) : null;
@@ -36,6 +37,7 @@ const questionReport = async (req: Request, res: Response) => {
         endDate && {
           createdAt: { $gte: startDateOfQuestion, $lte: endDateOfQuestion },
         }),
+      ...(questionerId && { userId: questionerId }),
     });
 
     return res.status(200).json({
