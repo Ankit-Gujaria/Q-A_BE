@@ -6,9 +6,10 @@ import {
   questionConstant,
 } from "../constants/message.constant";
 import { AnswerModel, QuestionModel } from "../models";
-import { answerUpload, deleteAnswerImage } from "../helpers/fs.helper";
+// import { answerUpload, deleteAnswerImage } from "../helpers/fs.helper";
 import moment from "moment";
 import schemaConstant from "../constants/schema.constant";
+import { deleteFile, upload } from "../helpers/s3.helper";
 
 // add question
 export const addAnswer = async (
@@ -51,22 +52,24 @@ export const addAnswer = async (
       });
     }
     if (file) {
-      const questionPath = answerUpload(file, email, userId);
-      if (!questionPath.status) {
-        if (questionPath.msg === fileConstant.IMAGE_TYPE) {
-          return res.status(400).json({
-            success: false,
-            message: fileConstant.IMAGE_TYPE,
-            data: null,
-          });
-        }
-        return res.status(400).json({
-          success: false,
-          message: fileConstant.IMAGE_SIZE,
-          data: null,
-        });
-      }
-      answerPathUrl = questionPath.data;
+      // const questionPath = answerUpload(file, email, userId);
+      // if (!questionPath.status) {
+      //   if (questionPath.msg === fileConstant.IMAGE_TYPE) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: fileConstant.IMAGE_TYPE,
+      //       data: null,
+      //     });
+      //   }
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: fileConstant.IMAGE_SIZE,
+      //     data: null,
+      //   });
+      // }
+      // answerPathUrl = questionPath.data;
+      const imageData = await upload(file);
+      answerPathUrl = imageData.Location;
     }
 
     // add answer
@@ -180,26 +183,29 @@ const editAnswer = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (file) {
-      const answerPath = answerUpload(file, email, userId);
-      if (!answerPath.status) {
-        if (answerPath.msg === fileConstant.IMAGE_TYPE) {
-          return res.status(400).json({
-            success: false,
-            message: fileConstant.IMAGE_TYPE,
-            data: null,
-          });
-        }
-        return res.status(400).json({
-          success: false,
-          message: fileConstant.IMAGE_SIZE,
-          data: null,
-        });
-      }
-      answerPathUrl = answerPath.data;
+      // const answerPath = answerUpload(file, email, userId);
+      // if (!answerPath.status) {
+      //   if (answerPath.msg === fileConstant.IMAGE_TYPE) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: fileConstant.IMAGE_TYPE,
+      //       data: null,
+      //     });
+      //   }
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: fileConstant.IMAGE_SIZE,
+      //     data: null,
+      //   });
+      // }
+      // answerPathUrl = answerPath.data;
+      const imageData = await upload(file);
+      answerPathUrl = imageData.Location;
     }
 
     if (answerData.answerImage && file) {
-      deleteAnswerImage(userId, answerData.answerImage);
+      // deleteAnswerImage(userId, answerData.answerImage);
+      await deleteFile(answerData.answerImage);
     }
     // update answer
     await AnswerModel.updateOne(

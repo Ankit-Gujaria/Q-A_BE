@@ -6,6 +6,7 @@ import answer from "./answer.route";
 import me from "./me.route";
 import dashboard from "./dashboard.route";
 import report from "./report.route";
+import upload from "./s3.route";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use(answer);
 router.use(me);
 router.use(dashboard);
 router.use(report);
+router.use(upload);
 
 export default router;

@@ -4,7 +4,8 @@ import questionController from "./question.controller";
 import answerController from "./answer.controller";
 import meController from "./me.controller";
 import dashboardController from "./dashboard.controller";
-import reportController from "../controllers/report.controller";
+import reportController from "./report.controller";
+import s3Controller from "./s3.controller";
 
 export {
   authController,
@@ -14,4 +15,5 @@ export {
   meController,
   dashboardController,
   reportController,
+  s3Controller,
 };

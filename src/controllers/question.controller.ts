@@ -7,8 +7,9 @@ import {
   fileConstant,
 } from "../constants/message.constant";
 import { QuestionModel } from "../models";
-import { deleteQuestionImage, questionUpload } from "../helpers/fs.helper";
+// import { deleteQuestionImage, questionUpload } from "../helpers/fs.helper";
 import schemaConstant from "../constants/schema.constant";
+import { deleteFile, upload } from "../helpers/s3.helper";
 
 // Add question
 const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,22 +22,24 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
     const expiredTime = moment().add(2, "h");
     let questionPathUrl: string | undefined;
     if (file) {
-      const questionPath = questionUpload(file, email, userId);
-      if (!questionPath.status) {
-        if (questionPath.msg === fileConstant.IMAGE_TYPE) {
-          return res.status(400).json({
-            success: false,
-            message: fileConstant.IMAGE_TYPE,
-            data: null,
-          });
-        }
-        return res.status(400).json({
-          success: false,
-          message: fileConstant.IMAGE_SIZE,
-          data: null,
-        });
-      }
-      questionPathUrl = questionPath.data;
+      // const questionPath = questionUpload(file, email, userId);
+      // if (!questionPath.status) {
+      //   if (questionPath.msg === fileConstant.IMAGE_TYPE) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: fileConstant.IMAGE_TYPE,
+      //       data: null,
+      //     });
+      //   }
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: fileConstant.IMAGE_SIZE,
+      //     data: null,
+      //   });
+      // }
+      // questionPathUrl = questionPath.data;
+      const imageData = await upload(file);
+      questionPathUrl = imageData.Location;
     }
     // Add question
     const question = await QuestionModel.create({
@@ -206,26 +209,29 @@ const editQuestion = async (
     }
 
     if (file) {
-      const questionPath = questionUpload(file, email, userId);
-      if (!questionPath.status) {
-        if (questionPath.msg === fileConstant.IMAGE_TYPE) {
-          return res.status(400).json({
-            success: false,
-            message: fileConstant.IMAGE_TYPE,
-            data: null,
-          });
-        }
-        return res.status(400).json({
-          success: false,
-          message: fileConstant.IMAGE_SIZE,
-          data: null,
-        });
-      }
-      questionPathUrl = questionPath.data;
+      // const questionPath = questionUpload(file, email, userId);
+      // if (!questionPath.status) {
+      //   if (questionPath.msg === fileConstant.IMAGE_TYPE) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       message: fileConstant.IMAGE_TYPE,
+      //       data: null,
+      //     });
+      //   }
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: fileConstant.IMAGE_SIZE,
+      //     data: null,
+      //   });
+      // }
+      // questionPathUrl = questionPath.data;
+      const imageData = await upload(file);
+      questionPathUrl = imageData.Location;
     }
 
     if (questionData.questionImage && file) {
-      deleteQuestionImage(userId, questionData.questionImage);
+      // deleteQuestionImage(userId, questionData.questionImage);
+      await deleteFile(questionData.questionImage);
     }
     // update question
     await QuestionModel.updateOne(

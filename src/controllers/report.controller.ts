@@ -46,6 +46,7 @@ const questionReport = async (req: Request, res: Response) => {
       data: questionReport,
     });
   } catch (error) {
+    console.log("Error =>", error);
     return res.status(500).json({
       success: false,
       message: error,
